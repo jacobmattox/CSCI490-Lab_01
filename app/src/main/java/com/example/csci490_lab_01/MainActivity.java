@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.os.CountDownTimer;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         startB = (Button) this.findViewById(R.id.button);
         startB.setOnClickListener(this);
         text = (TextView) this.findViewById(R.id.timer);
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         countDownTimer = new CountDownTimer(startTime, interval);
         text.setText(text.getText() + String.valueOf(startTime));
     }
+
 
     @Override
     public void onClick(View v) {
@@ -41,23 +44,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public class CountDownTimer {
-        long millisInFuture;
-        long countDownInterval;
-        long millisUntilFinished;
+    public class CountDownTimer extends android.os.CountDownTimer {
 
         public CountDownTimer(long millisInFuture, long countDownInterval) {
-            this.millisInFuture = millisInFuture;
-            this.countDownInterval = countDownInterval;
-            millisUntilFinished = 0;
+            super(millisInFuture, countDownInterval);
         }
 
-        private void onFinish() {
+
+        public void onFinish() {
             text.setText("Time's up!");
             timeElapsedView.setText("Time Elapsed: " + String.valueOf(startTime));
         }
 
-        private void onTick() {
+        public void onTick(long millisUntilFinished) {
             text.setText("Time remain: " + millisUntilFinished);
             timeElapsed = startTime - millisUntilFinished;
             timeElapsedView.setText("Time Elapsed: " + String.valueOf(timeElapsed));
